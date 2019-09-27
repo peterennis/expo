@@ -147,20 +147,47 @@ An array of file glob strings which point to assets that will be bundled within 
 
 ### `"androidStatusBar"`
 
-Configuration for android statusbar.
+Configuration for the status bar on Android.
 
 ```javascript
 {
   "androidStatusBar": {
     /*
-      Configure the statusbar icons to have light or dark color.
+      Configures the status-bar icons to have a light or dark color.
       Valid values: "light-content", "dark-content".
     */
     "barStyle": STRING,
 
     /*
-      Configuration for android statusbar.
-      6 character long hex color string, eg: "#000000"
+      Specifies the background color of the status bar.
+      Six-character hex color string, e.g., "#000000"
+    */
+    "backgroundColor": STRING
+  }
+}
+```
+
+### `"androidNavigationBar"`
+
+Configuration for the bottom navigation bar on Android.
+
+```javascript
+{
+  "androidNavigationBar": {
+    /*
+      Determines whether to show or hide the bottom navigation bar.
+      Specify `true` to show and `false` to hide. When set to `false`, both the navigation bar and the status bar are hidden by enabling full-screen mode, as recommended by the Android documentation.
+    */
+    "visible": BOOLEAN,
+    /*
+      Configure the navigation-bar icons to have a light or dark color. Supported on Android Oreo and newer.
+      Valid values: "light-content", "dark-content".
+    */
+    "barStyle": STRING,
+
+    /*
+      Specifies the background color of the navigation bar.
+      Six-character hex color string, e.g., "#000000"
     */
     "backgroundColor": STRING
   }
@@ -182,8 +209,7 @@ Configuration for loading and splash screen for standalone apps.
 
     /*
       Determines how the "image" will be displayed in the splash loading screen.
-      Must be one of "cover" or "contain", defaults to `contain`.
-      Valid values: "cover", "contain"
+      Valid values: "cover", "contain", or "native". Defaults to "contain".
     */
     "resizeMode": STRING,
 
@@ -237,7 +263,13 @@ Configuration for remote (push) notifications.
       If "androidMode" is set to "collapse", this title is used for the collapsed notification message.
       eg: "#{unread_notifications} new interactions"
     */
-    "androidCollapsedTitle": STRING
+    "androidCollapsedTitle": STRING,
+
+    /*
+     The URL-safe base64-encoded VAPID public key used for web push notifications.
+     Learn more: https://docs.expo.io/versions/latest/guides/using-vapid/#client-setup
+    */
+    "vapidPublicKey": STRING
   }
 }
 ```
@@ -292,11 +324,9 @@ Configuration for how and when the app should request OTA JavaScript updates
 
 ```
 
-> **ExpoKit**: To change the value of `enabled`, edit `ios/<PROJECT-NAME>/Supporting/EXShell.plist` and `android/app/src/main/java/host/exp/exponent/generated/AppConstants.java`. All other properties are set at runtime.
+> **ExpoKit**: To change the value of `enabled`, edit the `areRemoteUpdatesEnabled` key in `ios/<PROJECT-NAME>/Supporting/EXShell.plist` and the `ARE_REMOTE_UPDATES_ENABLED` variable in `android/app/src/main/java/host/exp/exponent/generated/AppConstants.java`. All other properties are set at runtime.
 
 ### `"ios"`
-
-**Standalone Apps Only**. iOS standalone app specific configuration
 
 ```javascript
 {
@@ -352,6 +382,15 @@ Configuration for how and when the app should request OTA JavaScript updates
     "supportsTablet": BOOLEAN,
 
     /*
+      If true, indicates that your standalone iOS app does not support Slide Over
+      and Split View on iPad.
+      Defaults to `true` currently, but will change to `false` in a future SDK version.
+
+      ExpoKit: use Xcode to set `UIRequiresFullScreen`.
+    */
+    "requireFullScreen": BOOLEAN,
+
+    /*
       If true, indicates that your standalone iOS app does not support handsets.
       Your app will only support tablets.
 
@@ -368,7 +407,8 @@ Configuration for how and when the app should request OTA JavaScript updates
 
     /*
       An array that contains Associated Domains for the standalone app. See apple's docs for config: https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/enabling_universal_links
-      Entries must be prefixed with "www."
+      
+      Entries must follow the format "applinks:<fully qualified domain>[:port number]". See Apple's docs for details -> https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_associated-domains
 
       ExpoKit: use Xcode to set this.
     */
@@ -381,6 +421,14 @@ Configuration for how and when the app should request OTA JavaScript updates
       ExpoKit: use Xcode to set this.
     */
     "usesIcloudStorage": BOOLEAN,
+
+    /*
+      A boolean indicating if the app uses Apple Sign In.
+      See AppleAuthentication docs for details.
+
+      ExpoKit: use Xcode to set this.
+    */
+    "usesAppleSignIn": BOOLEAN,
 
     /*
       Extra module configuration to be added to your app's native Info.plist.
@@ -411,6 +459,13 @@ Configuration for how and when the app should request OTA JavaScript updates
       "googleMapsApiKey": STRING,
 
       /*
+        Google Mobile Ads App ID for your standalone app.
+
+        https://developers.google.com/admob/ios/quick-start#update_your_infoplist
+      */
+      "googleMobileAdsAppId": STRING,
+
+      /*
         Google Sign-In iOS SDK keys for your standalone app.
 
         developers.google.com/identity/sign-in/ios/start-integrating
@@ -425,6 +480,14 @@ Configuration for how and when the app should request OTA JavaScript updates
     },
 
     "splash": {
+      /*
+        Local path to a .xib interface builder document which will be used as the
+        loading screen of the standalone iOS app.
+        Note that this will only be used in the standalone app (i.e., after you
+        build the app). It will not be used in the Expo client.
+      */
+      "xib": STRING,
+
       /*
         Color to fill the loading screen background 6 character long hex color string, eg: "#000000"
       */
@@ -449,7 +512,12 @@ Configuration for how and when the app should request OTA JavaScript updates
         Image size and aspect ratio are up to you.
         Must be a .png.
       */
-      "tabletImage": STRING
+      "tabletImage": STRING,
+
+      /*
+        Supported user interface styles. If left blank, "light" will be used. Use "automatic" if you would like to support either "light" or "dark" depending on iOS settings.
+      */
+      "userInterfaceStyle": "automatic" | "light" | "dark"
     }
   }
 }
@@ -650,7 +718,14 @@ Configuration for how and when the app should request OTA JavaScript updates
           Your Google Maps Android SDK API key
         */
         "apiKey": STRING
-      }
+      },
+
+      /*
+        Google Mobile Ads App ID for your standalone app.
+
+        https://developers.google.com/admob/android/quick-start#update_your_androidmanifestxml
+      */
+      "googleMobileAdsAppId": STRING,
 
       /*
         Google Sign-In Android SDK keys for your standalone app.

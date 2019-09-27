@@ -84,6 +84,7 @@ const FUNDAMENTALS = [
   'Upgrading Expo SDK Walkthrough',
   'Linking',
   'How Expo Works',
+  'Ejecting to Bare Workflow',
   'Glossary of terms',
   'exp Command-Line Interface',
 ];
@@ -111,7 +112,15 @@ const EXPOKIT = [
   'Universal Modules and ExpoKit',
 ];
 
-const ESSENTIALS = ['Bare Workflow Walkthrough', 'Up and Running', 'Supported Expo SDK APIs'];
+const ESSENTIALS = [
+  'Bare Workflow Walkthrough',
+  'Up and Running',
+  'Supported Expo SDK APIs',
+  'Using Expo client',
+  'Using Expo for web',
+  'Ejecting from Managed Workflow',
+  'Migrating from ExpoKit',
+];
 
 const REACT_NATIVE = [
   // 'REACT NATIVE BASICS',

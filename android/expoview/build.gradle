@@ -6,7 +6,8 @@ apply plugin: 'com.jakewharton.butterknife'
 // WHEN_VERSIONING_REMOVE_FROM_HERE
 //maven repository info
 group = 'host.exp.exponent'
-version = '33.0.0'
+version = '35.0.0'
+
 
 //Upload android library to maven with javadoc and android sources
 configurations {
@@ -73,9 +74,6 @@ android {
     targetSdkVersion safeExtGet("targetSdkVersion", 28)
     versionCode 1
     versionName "1.0"
-    ndk {
-      abiFilters 'armeabi-v7a', 'x86', 'arm64-v8a', 'x86_64'
-    }
     // WHEN_VERSIONING_REMOVE_FROM_HERE
     manifestPlaceholders = [
         'appAuthRedirectScheme': 'host.exp.exponent'
@@ -92,27 +90,35 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  compileOptions {
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+  }
 }
 
 // WHEN_VERSIONING_REMOVE_FROM_HERE
 import org.apache.tools.ant.taskdefs.condition.Os
 
-task generateDynamicMacros(type: Exec) {
-  def configuration = gradle.startParameter.taskNames.any { it.toLowerCase().contains("release") } ? "release" : "debug"
+class GenerateDynamicMacrosPlugin implements Plugin<Project> {
+  @Override
+  void apply(Project target) {
+    target.exec {
+      def configuration = target.gradle.startParameter.taskNames.any {
+        it.toLowerCase().contains("release")
+      } ? "release" : "debug"
 
-  workingDir '../../tools/expotools/bin'
+      workingDir '../../tools/expotools/bin'
 
-  if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-    commandLine 'cmd.exe', '/c', "expotools.js android-generate-dynamic-macros --configuration ${configuration}"
-  } else {
-    commandLine "./expotools.js", "android-generate-dynamic-macros", "--configuration", configuration
+      if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        commandLine 'cmd.exe', '/c', "expotools.js android-generate-dynamic-macros --configuration ${configuration}"
+      } else {
+        commandLine "./expotools.js", "android-generate-dynamic-macros", "--configuration", configuration
+      }
+    }
   }
 }
 
-// Automatically generate dynamic macros once the task graph is ready. It ensures this task to be executed before all other tasks.
-gradle.taskGraph.whenReady {
-  generateDynamicMacros.execute()
-}
+apply plugin: GenerateDynamicMacrosPlugin
 
 configurations.all {
   resolutionStrategy {
@@ -126,7 +132,7 @@ apply from: "../../node_modules/react-native-unimodules/gradle.groovy"
 
 dependencies {
   api fileTree(dir: 'libs', include: ['*.jar'])
-  api 'com.android.support:multidex:1.0.3'
+  api 'androidx.multidex:multidex:2.0.0'
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
   testImplementation 'junit:junit:4.12'
@@ -138,12 +144,12 @@ dependencies {
   api 'org.webkit:android-jsc:r245459' // needs to be before react-native
 
   /* UNCOMMENT WHEN DISTRIBUTING
-  api 'com.facebook.react:react-native:33.0.0'
+  api 'com.facebook.react:react-native:35.0.0'
   addUnimodulesDependencies([
       modulesPaths : ['../../packages'],
       configuration: 'compileOnly',
       target       : 'react-native',
-      exclude      : ['expo-in-app-purchases', 'expo-updates']
+      exclude      : ['expo-bluetooth', 'expo-in-app-purchases', 'expo-updates']
   ])
   END UNCOMMENT WHEN DISTRIBUTING */
 
@@ -156,24 +162,25 @@ dependencies {
       modulesPaths : ['../../packages'],
       configuration: 'api',
       target       : 'react-native',
-      exclude      : ['expo-in-app-purchases', 'expo-updates']
+      exclude      : [
+          'expo-bluetooth',
+          'expo-in-app-purchases',
+          'expo-updates',
+      ]
   ])
 
   // Versioned react native
   // WHEN_PREPARING_SHELL_REMOVE_FROM_HERE
   // THIS COMMENT IS USED BY android-build-aar.sh DO NOT MODIFY
+  // BEGIN_SDK_35
+  api 'host.exp:reactandroid-abi35_0_0:1.0.0'
+  // END_SDK_35
   // BEGIN_SDK_34
   api 'host.exp:reactandroid-abi34_0_0:1.0.0'
   // END_SDK_34
   // BEGIN_SDK_33
   api 'host.exp:reactandroid-abi33_0_0:1.0.0'
   // END_SDK_33
-  // BEGIN_SDK_32
-  api 'host.exp:reactandroid-abi32_0_0:1.0.0'
-  // END_SDK_32
-  // BEGIN_SDK_31
-  api 'host.exp:reactandroid-abi31_0_0:1.0.0'
-  // END_SDK_31
   // WHEN_PREPARING_SHELL_REMOVE_TO_HERE
   // WHEN_VERSIONING_REMOVE_TO_HERE
   // WHEN_DISTRIBUTING_REMOVE_TO_HERE
@@ -195,9 +202,9 @@ dependencies {
   api 'javax.inject:javax.inject:1'
 
   // Our dependencies
-  api "com.android.support:appcompat-v7:${safeExtGet("supportLibVersion", "28.0.0")}"
-  api('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
-    transitive = true
+  api "androidx.appcompat:appcompat:1.0.0"
+  api('com.crashlytics.sdk.android:crashlytics:2.10.1@aar') {
+    transitive = true;
   }
   compileOnly 'org.glassfish:javax.annotation:3.1.1'
   api 'de.greenrobot:eventbus:2.4.0'
@@ -213,9 +220,6 @@ dependencies {
   api 'com.google.android.gms:play-services-location:16.0.0'
   api 'com.google.android.gms:play-services-fitness:16.0.1'
   api 'com.google.android.gms:play-services-wallet:16.0.1' //may need 10.+
-  annotationProcessor 'com.raizlabs.android:DBFlow-Compiler:2.2.1'
-  api "com.raizlabs.android:DBFlow-Core:2.2.1"
-  api "com.raizlabs.android:DBFlow:2.2.1"
   api "com.madgag.spongycastle:core:1.53.0.0"
   api "com.madgag.spongycastle:prov:1.53.0.0"
   debugApi 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta1'
@@ -228,10 +232,10 @@ dependencies {
   api 'net.openid:appauth:0.7.1'
   api 'com.airbnb.android:lottie:2.5.6'
   compileOnly 'io.branch.sdk.android:library:2.17.1'
-  api "com.android.support:exifinterface:${safeExtGet("supportLibVersion", "28.0.0")}"
-  api "com.android.support:support-v4:${safeExtGet("supportLibVersion", "28.0.0")}"
-  api "com.android.support:customtabs:${safeExtGet("supportLibVersion", "28.0.0")}"
-  api "com.android.support:design:${safeExtGet("supportLibVersion", "28.0.0")}"
+  api "androidx.exifinterface:exifinterface:1.0.0"
+  api "androidx.legacy:legacy-support-v4:1.0.0"
+  api "androidx.browser:browser:1.0.0"
+  api "com.google.android.material:material:1.0.0"
   api 'com.google.firebase:firebase-core:16.0.9'
   api 'com.google.firebase:firebase-messaging:18.0.0'
   api 'com.google.maps.android:android-maps-utils:0.5'
@@ -247,10 +251,13 @@ dependencies {
   // See explanation in expo-av/build.gradle
   api 'com.google.android.exoplayer:extension-okhttp:2.9.2'
 
-  // WHEN_PREPARING_SHELL_REMOVE_FROM_HERE
-  // TODO: Remove this method once SDK32 is phased out
-  compileOnly 'expolib_v1.com.squareup.okhttp3:okhttp:3.6.0'
-  compileOnly 'expolib_v1.com.squareup.okhttp3:okhttp-urlconnection:3.6.0'
-  compileOnly 'expolib_v1.com.squareup.okio:okio:1.13.0'
-  // WHEN_PREPARING_SHELL_REMOVE_TO_HERE
+  // expo-application
+  api 'com.android.installreferrer:installreferrer:1.0'
+
+  //dbflow
+  annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${safeExtGet('dbFlowVersion', '4.2.4')}"
+  api "com.github.Raizlabs.DBFlow:dbflow-core:${safeExtGet('dbFlowVersion', '4.2.4')}"
+  api "com.github.Raizlabs.DBFlow:dbflow:${safeExtGet('dbFlowVersion', '4.2.4')}"
+
+  implementation 'com.cronutils:cron-utils:4.1.3'
 }

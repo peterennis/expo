@@ -18,6 +18,22 @@ For [managed](../../introduction/managed-vs-bare/#managed-workflow) apps, you'll
 import * as MediaLibrary from 'expo-media-library';
 ```
 
+### `MediaLibrary.requestPermissionsAsync()`
+
+Asks the user to grant permissions for accessing media in user's media library. Alias for `Permissions.askAsync(Permissions.CAMERA_ROLL)`.
+
+#### Returns
+
+Returns a promise that resolves to an object of type [PermissionsResult](#permissionsresult).
+
+### `MediaLibrary.getPermissionsAsync()`
+
+Checks user's permissions for accessing media library. Alias for `Permissions.getAsync(Permissions.CAMERA_ROLL)`.
+
+#### Returns
+
+Returns a promise that resolves to an object of type [PermissionsResult](#permissionsresult).
+
 ### `MediaLibrary.createAssetAsync(localUri)`
 
 Creates an asset from existing file. The most common use case is to save a picture taken by [Camera](../camera/).
@@ -35,6 +51,14 @@ const asset = await MediaLibrary.createAssetAsync(uri);
 
 An object representing an [asset](#asset).
 
+### `MediaLibrary.saveToLibraryAsync(localUri)`
+
+Saves the file at given `localUri` to the user's media library. On **iOS 11+**, it's possible to use this method without asking for `CAMERA_ROLL` permission, however then yours `Info.plist` should have `NSPhotoLibraryAddUsageDescription` key.
+
+#### Arguments
+
+- **localUri (_string_)** -- A URI to the image or video file. On Android it must be a local path, so it must start with `file:///`.
+
 ### `MediaLibrary.getAssetsAsync(options)`
 
 Fetches a page of assets matching the provided criteria.
@@ -50,6 +74,8 @@ Fetches a page of assets matching the provided criteria.
     Earlier items have higher priority when sorting out the results.
     If empty, this method will use the default sorting that is provided by the platform.
   - **mediaType (_array_)** -- An array of [MediaType](#expomedialibrarymediatype) types. By default `MediaType.photo` is set.
+  - **createdAfter (_Date_ | _number_)** -- Date object or Unix timestamp in milliseconds limiting returned assets only to those that were created after this date.
+  - **createdBefore (_Date_ | _number_)** -- Similarly as `createdAfter`, but limits assets only to those that were created before specified date.
 
 #### Returns
 
@@ -197,6 +223,13 @@ An EventSubscription object that you can call `remove()` on when you would like 
 Removes all listeners.
 
 ## Types
+
+### `PermissionsResult`
+
+| Field name | Type      | Description                                                                  |
+| ---------- | --------- | ---------------------------------------------------------------------------- |
+| status     | _string_  | Permission status with possible values: `granted`, `denied`, `undetermined`. |
+| granted    | _boolean_ | Boolean value meaning whether the permission is granted or not.              |
 
 ### `Asset`
 

@@ -45,12 +45,12 @@ A short description of what your app is and why it is great.
 
 ### `"owner"`
 
-The primary user to use for publishing and creating builds.  If not provided, defaults to the username of the current user.
+The primary user to use for publishing and creating builds. If not provided, defaults to the username of the current user.
 
 ### `"privacy"`
 
 Either `public` or `unlisted`. If not provided, defaults to `unlisted`. In the future `private` will be supported. `unlisted` hides the experience from search results.
- Valid values: `public`, `unlisted`
+Valid values: `public`, `unlisted`
 
 ### `"sdkVersion"`
 
@@ -73,7 +73,7 @@ If you would like to share the source code of your app on Github, enter the URL 
 ### `"orientation"`
 
 Lock your app to a specific orientation with `portrait` or `landscape`. Defaults to no lock.
- Valid values: 'default', 'portrait', 'landscape'
+Valid values: 'default', 'portrait', 'landscape'
 
 ### `"primaryColor"`
 
@@ -182,8 +182,7 @@ Configuration for loading and splash screen for standalone apps.
 
     /*
       Determines how the "image" will be displayed in the splash loading screen.
-      Must be one of "cover" or "contain", defaults to `contain`.
-      Valid values: "cover", "contain"
+      Valid values: "cover", "contain", or "native". Defaults to "contain".
     */
     "resizeMode": STRING,
 
@@ -218,14 +217,6 @@ Configuration for remote (push) notifications.
       6 character long hex color string eg: "#000000"
     */
     "color": STRING,
-
-    /*
-      Whether or not to display notifications when the app is in the foreground on iOS.
-      `_displayInForeground` option in the individual push notification message overrides this option.
-      Learn more: https://docs.expo.io/versions/latest/guides/push-notifications/#3-handle-receiving-andor-selecting-the-notification
-      Defaults to `false`.
-    */
-    "iosDisplayInForeground": BOOLEAN,
 
     /*
       Show each push notification individually "default" or collapse into one "collapse".
@@ -292,7 +283,7 @@ Configuration for how and when the app should request OTA JavaScript updates
 
 ```
 
-> **ExpoKit**: To change the value of `enabled`, edit `ios/<PROJECT-NAME>/Supporting/EXShell.plist` and `android/app/src/main/java/host/exp/exponent/generated/AppConstants.java`. All other properties are set at runtime.
+> **ExpoKit**: To change the value of `enabled`, edit the `areRemoteUpdatesEnabled` key in `ios/<PROJECT-NAME>/Supporting/EXShell.plist` and the `ARE_REMOTE_UPDATES_ENABLED` variable in `android/app/src/main/java/host/exp/exponent/generated/AppConstants.java`. All other properties are set at runtime.
 
 ### `"ios"`
 
@@ -316,10 +307,10 @@ Configuration for how and when the app should request OTA JavaScript updates
     "bundleIdentifier": STRING,
 
     /*
-      Build number for your iOS standalone app. Corresponds to `CFBundleVersion` 
+      Build number for your iOS standalone app. Corresponds to `CFBundleVersion`
       and must match Apple's specified format.
       developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/20001431-102364.
-      
+
       Note- Application loader will pull the value for "Version Number" from `expo.version` and NOT from `expo.ios.buildNumber`
 
       ExpoKit: use Xcode to set this.
@@ -368,7 +359,7 @@ Configuration for how and when the app should request OTA JavaScript updates
 
     /*
       An array that contains Associated Domains for the standalone app. See apple's docs for config: https://developer.apple.com/documentation/uikit/core_app/allowing_apps_and_websites_to_link_to_your_content/enabling_universal_links
-      Entries must be prefixed with "www."
+      Entries must follow the format "applinks:<fully qualified domain>[:port number]". See Apple's docs for details -> https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_associated-domains
 
       ExpoKit: use Xcode to set this.
     */

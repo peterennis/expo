@@ -4,8 +4,10 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 
 #import <EXMediaLibrary/EXMediaLibrary.h>
+#import <EXMediaLibrary/EXSaveToLibraryDelegate.h>
 
 #import <UMCore/UMDefines.h>
+#import <UMCore/UMUtilities.h>
 #import <UMCore/UMEventEmitterService.h>
 #import <UMFileSystemInterface/UMFileSystemInterface.h>
 #import <UMPermissionsInterface/UMPermissionsInterface.h>
@@ -24,12 +26,21 @@ NSString *const EXMediaLibraryDidChangeEvent = @"mediaLibraryDidChange";
 @property (nonatomic, weak) id<UMPermissionsInterface> permissionsManager;
 @property (nonatomic, weak) id<UMFileSystemInterface> fileSystem;
 @property (nonatomic, weak) id<UMEventEmitterService> eventEmitter;
+@property (nonatomic, strong) NSMutableSet *saveToLibraryDelegates;
 
 @end
 
 @implementation EXMediaLibrary
 
 UM_EXPORT_MODULE(ExponentMediaLibrary);
+
+- (instancetype) init
+{
+  if (self = [super init]) {
+    _saveToLibraryDelegates = [NSMutableSet new];
+  }
+  return self;
+}
 
 - (void)setModuleRegistry:(UMModuleRegistry *)moduleRegistry
 {
@@ -76,6 +87,26 @@ UM_EXPORT_MODULE(ExponentMediaLibrary);
   return @[EXMediaLibraryDidChangeEvent];
 }
 
+UM_EXPORT_METHOD_AS(requestPermissionsAsync,
+                    requestPermissions:(UMPromiseResolveBlock)resolve
+                    reject:(UMPromiseRejectBlock)reject)
+{
+  if (!_permissionsManager) {
+    return reject(@"E_NO_PERMISSIONS_MODULE", @"Permissions module not found. Are you sure that Expo modules are properly linked?", nil);
+  }
+  [_permissionsManager askForPermission:@"cameraRoll" withResult:resolve withRejecter:reject];
+}
+
+UM_EXPORT_METHOD_AS(getPermissionsAsync,
+                    getPermissions:(UMPromiseResolveBlock)resolve
+                    reject:(UMPromiseRejectBlock)reject)
+{
+  if (!_permissionsManager) {
+    return reject(@"E_NO_PERMISSIONS_MODULE", @"Permissions module not found. Are you sure that Expo modules are properly linked?", nil);
+  }
+  resolve([_permissionsManager getPermissionsForResource:@"cameraRoll"]);
+}
+
 UM_EXPORT_METHOD_AS(createAssetAsync,
                     createAssetFromLocalUri:(nonnull NSString *)localUri
                     resolve:(UMPromiseResolveBlock)resolve
@@ -120,6 +151,44 @@ UM_EXPORT_METHOD_AS(createAssetAsync,
       reject(@"E_ASSET_SAVE_FAILED", @"Asset couldn't be saved to photo library", error);
     }
   }];
+}
+
+UM_EXPORT_METHOD_AS(saveToLibraryAsync,
+                    saveToLibraryAsync:(nonnull NSString *)localUri
+                    resolve:(UMPromiseResolveBlock)resolve
+                    reject:(UMPromiseRejectBlock)reject)
+{
+  if ([[NSBundle mainBundle] objectForInfoDictionaryKey:@"NSPhotoLibraryAddUsageDescription"] == nil) {
+    return reject(@"E_NO_PERMISSIONS", @"This app is missing NSPhotoLibraryAddUsageDescription. Add this entry to your bundle's Info.plist.", nil);
+  }
+  PHAssetMediaType assetType = [EXMediaLibrary _assetTypeForUri:localUri];
+  NSURL *assetUrl = [self.class _normalizeAssetURLFromUri:localUri];
+  UM_WEAKIFY(self)
+  __block EXSaveToLibraryDelegate *delegate = [EXSaveToLibraryDelegate new];
+  [_saveToLibraryDelegates addObject:delegate];
+  EXSaveToLibraryCallback callback = ^(id asset, NSError *error){
+    UM_STRONGIFY(self)
+    [self.saveToLibraryDelegates removeObject:delegate];
+    if (error) {
+      return reject(@"E_SAVE_FAILED", [error localizedDescription], nil);
+    }
+    return resolve(nil);
+  };
+  
+  if (assetType == PHAssetMediaTypeImage) {
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:assetUrl]];
+    if (image == nil) {
+      return reject(@"E_FILE_IS_MISSING", [NSString stringWithFormat:@"Couldn't open file: %@. Make sure if this file exists.", localUri], nil);
+    }
+    return [delegate writeImage:image withCallback:callback];
+  } else if (assetType == PHAssetMediaTypeVideo) {
+    if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum([assetUrl path])) {
+      return [delegate writeVideo:[assetUrl path] withCallback:callback];
+    }
+    return reject(@"E_COULD_NOT_SAVE_VIDEO", @"This video couldn't be saved to the Camera Roll album.", nil);
+  }
+  
+  return reject(@"E_UNSUPPORTED_ASSET", @"This file type is not supported yet.", nil);
 }
 
 UM_EXPORT_METHOD_AS(addAssetsToAlbumAsync,
@@ -357,6 +426,8 @@ UM_EXPORT_METHOD_AS(getAssetsAsync,
   NSArray<NSString *> *mediaType = options[@"mediaType"];
   NSArray *sortBy = options[@"sortBy"];
   NSString *albumId = options[@"album"];
+  NSDate *createdAfter = [UMUtilities NSDate:options[@"createdAfter"]];
+  NSDate *createdBefore = [UMUtilities NSDate:options[@"createdBefore"]];
   
   PHAssetCollection *collection;
   PHAsset *cursor;
@@ -390,6 +461,16 @@ UM_EXPORT_METHOD_AS(getAssetsAsync,
   
   if (sortBy && sortBy.count > 0) {
     fetchOptions.sortDescriptors = [EXMediaLibrary _prepareSortDescriptors:sortBy];
+  }
+
+  if (createdAfter) {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"creationDate > %@", createdAfter];
+    [predicates addObject:predicate];
+  }
+
+  if (createdBefore) {
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"creationDate < %@", createdBefore];
+    [predicates addObject:predicate];
   }
   
   if (predicates.count > 0) {

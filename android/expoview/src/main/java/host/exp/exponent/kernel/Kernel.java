@@ -170,10 +170,11 @@ public class Kernel extends KernelInterface {
   }
 
   // Don't call this until a loading screen is up, since it has to do some work on the main thread.
-  public void startJSKernel() {
+  public void startJSKernel(Activity activity) {
     if (Constants.isStandaloneApp()) {
       return;
     }
+    setActivityContext(activity);
 
     SoLoader.init(mContext, false);
 
@@ -281,28 +282,13 @@ public class Kernel extends KernelInterface {
                 .setInitialLifecycleState(LifecycleState.RESUMED);
 
             if (!KernelConfig.FORCE_NO_KERNEL_DEBUG_MODE && mExponentManifest.isDebugModeEnabled(mExponentManifest.getKernelManifest())) {
-              if (Exponent.getInstance().shouldRequestDrawOverOtherAppsPermission()) {
-                new AlertDialog.Builder(mActivityContext)
-                    .setTitle("Please enable \"Permit drawing over other apps\"")
-                    .setMessage("Click \"ok\" to open settings. Once you've enabled the setting you'll have to restart the app.")
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                      public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                            Uri.parse("package:" + mActivityContext.getPackageName()));
-                        mActivityContext.startActivityForResult(intent, KernelConstants.OVERLAY_PERMISSION_REQUEST_CODE);
-                      }
-                    })
-                    .setCancelable(false)
-                    .show();
-                return;
-              }
-
               Exponent.enableDeveloperSupport("UNVERSIONED", mExponentManifest.getKernelManifestField(ExponentManifest.MANIFEST_DEBUGGER_HOST_KEY),
                   mExponentManifest.getKernelManifestField(ExponentManifest.MANIFEST_MAIN_MODULE_NAME_KEY), RNObject.wrap(builder));
             }
 
             mReactInstanceManager = builder.build();
             mReactInstanceManager.createReactContextInBackground();
+            mReactInstanceManager.onHostResume(getActivityContext(), null);
 
             mIsRunning = true;
             EventBus.getDefault().postSticky(new KernelStartedRunningEvent());

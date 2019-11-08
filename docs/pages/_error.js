@@ -79,12 +79,6 @@ export default class Error extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.redirectPath !== this.state.redirectPath && typeof window !== 'undefined') {
-      Sentry.configureScope(scope => {
-        scope.setExtra('originalPath', window.location.pathname);
-        scope.setExtra('redirectPath', this.state.redirectPath);
-      });
-      Sentry.captureMessage(`Redirect handled`);
-
       // Let people actually read the carefully crafted message and absorb the
       // cool emoji selection, they can just click through if they want speed
       setTimeout(() => {
@@ -247,6 +241,6 @@ const RENAMED_PAGES = {
   '/versions/latest/introduction/already-used-react-native/':
     '/versions/latest/workflow/already-used-react-native/',
   '/versions/latest/introduction/community/': '/versions/latest/next-steps/community/',
-  '/versions/latest/introduction/installation/': '/versions/latest/next-steps/installation/',
+  '/versions/latest/introduction/installation/': '/versions/latest/get-started/installation/',
   '/versions/latest/workflow/exploring-managed-workflow/': '/versions/latest/introduction/walkthrough/',
 };

@@ -157,15 +157,6 @@
     <!-- WHEN_PREPARING_SHELL_REMOVE_TO_HERE -->
 
     <activity
-      android:name=".ExponentDevActivity"
-      android:exported="true"
-      android:label="@string/dev_activity_name"
-      android:screenOrientation="portrait"
-      android:theme="@style/Theme.Exponent.Dark"
-      android:windowSoftInputMode="adjustPan">
-    </activity>
-
-    <activity
         android:name="net.openid.appauth.RedirectUriReceiverActivity"
         tools:node="replace">
       <intent-filter>
@@ -367,6 +358,7 @@
     <meta-data
       android:name="com.google.android.gms.ads.APPLICATION_ID"
       android:value="ca-app-pub-3940256099942544~3347511713"/>
+    <meta-data android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT" android:value="true"/>
     <!-- END GOOGLE MOBILE ADS CONFIG -->
 
     <!-- ADD BRANCH CONFIG HERE -->

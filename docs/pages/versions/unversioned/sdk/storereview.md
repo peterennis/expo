@@ -1,5 +1,6 @@
 ---
 title: StoreReview
+sourceCodeUrl: "https://github.com/expo/expo/tree/sdk-36/packages/expo-store-review"
 ---
 
 Provides access to the `SKStoreReviewController` API in iOS 10.3+ devices.
@@ -29,7 +30,7 @@ StoreReview.requestReview();
 
 ### `StoreReview.isAvailableAsync()`
 
-This will return true if the device is running iOS 10.3 or greater.
+Determines if the platform has the capabilities to use `StoreReview.requestReview()`. On iOS, this will return `true` if the device is running iOS 10.3+. On Android, this will return `true`. On Web, this will return `false`.
 
 #### Example
 

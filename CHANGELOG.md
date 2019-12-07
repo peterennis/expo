@@ -6,6 +6,18 @@ This is the log of notable changes to the Expo client that are developer-facing.
 
 ### 📚 3rd party library updates
 
+### 🛠 Breaking changes
+
+### 🎉 New features
+
+- Added support for badge numbers. ([#4562](https://github.com/expo/expo/pull/4562) by [@jaulz](https://github.com/jaulz))
+
+### 🐛 Bug fixes
+
+## 36.0.0
+
+### 📚 3rd party library updates
+
 - `@react-native-community/netinfo` updated from `3.2.1` to `4.6.0`. ([#6176](https://github.com/expo/expo/pull/6176) by [@sjchmiela](https://github.com/sjchmiela))
 - `react-native-branch` updated from `3.1.1` to `4.2.1`. ([#6176](https://github.com/expo/expo/pull/6176) by [@sjchmiela](https://github.com/sjchmiela))
 - `react-native-gesture-handler` updated from `1.4.0` to `1.5.1`. ([#6127](https://github.com/expo/expo/pull/6127) by [@tsapeta](https://github.com/tsapeta) and [8b0e1b6](https://github.com/expo/expo/commit/8b0e1b6852bf631558d7b6b47d1db782c1c3d528) by [@esamelson](https://github.com/esamelson))
@@ -21,10 +33,15 @@ This is the log of notable changes to the Expo client that are developer-facing.
 
 - **`jest-expo`**: Removed `mockPlatformIOS()`, `mockPlatformAndroid()`, `mockPlatformWeb()`, `describeCrossPlatform()` in favor of platform specific presets like `jest-expo/universal`. ([#5645](https://github.com/expo/expo/pull/5645) by [@EvanBacon](https://github.com/EvanBacon))
 - **`expo`**: Removed Branch export from `expo/Branch`. ([#6190](https://github.com/expo/expo/pull/6190) by [@sjchmiela](https://github.com/sjchmiela))
+- **`expo`**: Removed `ErrorRecovery` from the `expo` package and extracted into `expo-error-recovery` unimodule. ([#5357](https://github.com/expo/expo/pull/5357) by [@lukmccall](https://github.com/lukmccall))
+- **`expo`**: Updated `Linking.parse` to better handle non-expo URLs. ([#5179](https://github.com/expo/expo/pull/5179) by [@koenpunt](https://github.com/koenpunt))
 - **`expo-analytics-segment`**: Fixed `enabled` behavior inverted on iOS. ([#6242](https://github.com/expo/expo/pull/6242) by [@sjchmiela](https://github.com/sjchmiela))
+- **`expo-facebook`**: Disabled autoinitialization of the Facebook SDK and added an `initializeAsync` method and `autoinit` app.json setting. ([#5924] by [@sjchmiela](https://github.com/sjchmiela))
+- **`expo-keep-awake`**: Removed deprecated methods and components. ([#6006](https://github.com/expo/expo/pull/6006) by [@EvanBacon](https://github.com/EvanBacon))
 - **`expo-location`**: `Location.requestPermissionsAsync()` is no longer being rejected when permissions were not granted. Instead it returns `PermissionsResponse` object, which is similar to the result of `Permissions.askAsync(Permissions.Location)`. ([#5061](https://github.com/expo/expo/pull/5061) by [@lukmccall](https://github.com/lukmccall))
 - **`expo-store-review`**: Replace `StoreReview.isSupported` method with `StoreReview.isAvailableAsync` returning promise instead of boolean. ([#6195](https://github.com/expo/expo/pull/6195) by [@danibonilha](https://github.com/danibonilha))
 - **`expo-calendar`**: Methods creating or updating calendar events now reject when passed `timeZone` is invalid. ([#6326](https://github.com/expo/expo/pull/6326) by [@lukmccall](https://github.com/lukmccall))
+- **`expo-screen-orientation`**: Removed deprecated methods `allow`, `allowAsync`, and `doesSupportAsync`. ([#6007](https://github.com/expo/expo/pull/6007) by [@EvanBacon](https://github.com/EvanBacon))
 
 ### 🎉 New features
 
@@ -39,6 +56,9 @@ This is the log of notable changes to the Expo client that are developer-facing.
 - Added support for complex recurrence rules for events and reminders on iOS. ([#6300](https://github.com/expo/expo/pull/6300) by [@tasn](https://github.com/tasn))
 - Added `exif` and `base64` properties into the TypeScript definitions for `ImagePickerResult` in `expo-image-picker`. ([#6311](https://github.com/expo/expo/pull/6311) by [@kyletsang](https://github.com/kyletsang))
 - Added a `videoExportPreset` field to `ImagePickerOptions`, which sets dimensions and compression algorithm for exported video on iOS. ([#6046](https://github.com/expo/expo/pull/6046) by [@lukmccall](https://github.com/lukmccall))
+- Added `nonce` option to `expo-apple-authentication`. ([#6404](https://github.com/expo/expo/pull/6404) by [@brentvatne](https://github.com/brentvatne))
+- Added support for more permissions on web. ([#6115](https://github.com/expo/expo/pull/6115) by [@EvanBacon](https://github.com/EvanBacon))
+- Added better `Camera` support across web browsers. ([#6207](https://github.com/expo/expo/pull/6207) by [@EvanBacon](https://github.com/EvanBacon))
 
 ### 🐛 Bug fixes
 
@@ -51,7 +71,6 @@ This is the log of notable changes to the Expo client that are developer-facing.
 - Fixed `MediaLibrary.getAlbumsAsync()` not getting albums in folders on iOS. ([#5857](https://github.com/expo/expo/pull/5857) by [@lukmccall](https://github.com/lukmccall))
 - Fixed unclosed http connections in `FileSystem.downloadAsync` method. ([#5840](https://github.com/expo/expo/pull/5840) by [@bbarthec](https://github.com/bbarthec))
 - Fixed `ImagePicker` ignoring orientation of the application. ([#5946](https://github.com/expo/expo/pull/5946) by [@lukmccall](https://github.com/lukmccall))
-- Fixed cropping tool in `ImagePicker`, which was not moving on iOS. ([#5965](https://github.com/expo/expo/pull/5965) by [@lukmccall](https://github.com/lukmccall))
 - Fixed `Calendar.getCalendarsAsync` rejecting on iOS 13, when `source.name` is null. ([#5994](https://github.com/expo/expo/pull/5994) by [@lukmccall](https://github.com/lukmccall))
 - Fixed handling URI with no scheme in `ExpoFileSystem`. ([#5904](https://github.com/expo/expo/pull/5904) by [@bbarthec](https://github.com/bbarthec))
 - Fixed `FileSystem#deleteAsync` in older Android SDKs. ([#5923](https://github.com/expo/expo/pull/5923) by [@bbarthec](https://github.com/bbarthec))
@@ -70,6 +89,20 @@ This is the log of notable changes to the Expo client that are developer-facing.
 - Fixed `expo-gl` crashing an app when context initialization happens on remote JS context. ([#6381](https://github.com/expo/expo/pull/6381) by [@tsapeta](https://github.com/tsapeta))
 - Fixed memory leaks caused by `ImagePicker` module. ([#6303](https://github.com/expo/expo/pull/6303) by [@lukmccall](https://github.com/lukmccall))
 - Fixed Android scoped `FileSystem` migration. ([#6367](https://github.com/expo/expo/pull/6367))
+- Fixed `ScreenOrientation` crashing on Edge. ([#5913](https://github.com/expo/expo/pull/5913) by [@EvanBacon](https://github.com/EvanBacon))
+- Fixed `LinearGradient` colors on web. ([#5843](https://github.com/expo/expo/pull/5843) by [@EvanBacon](https://github.com/EvanBacon))
+- Fixed `MediaLibrary.getAssetInfoAsync()` not returning `localUri` for videos. ([#5806](https://github.com/expo/expo/pull/5806) by [@lukmccall](https://github.com/lukmccall))
+- Fixed `Localization` constants export in iOS simulator. ([#5740](https://github.com/expo/expo/pull/5740) by [@lukmccall](https://github.com/lukmccall))
+- Removed unnecessary `CameraRoll` permissions check in `ImagePicker` on iOS 11+. ([#5822](https://github.com/expo/expo/pull/5822) by [@lukmccall](https://github.com/lukmccall))
+- Fixed default value for `fallbackLabel` in `LocalAuthentication.authenticateAsync`. ([#5844](https://github.com/expo/expo/pull/5844) by [@cruzach](https://github.com/cruzach))
+- Fixed getting `Contacts` containers without specifying a predicate. ([#6016](https://github.com/expo/expo/pull/6016) by [@tasn](https://github.com/tasn))
+- Fixed vector icons in MS Edge by disabling font face observer. ([#5961](https://github.com/expo/expo/pull/5961) by [@EvanBacon](https://github.com/EvanBacon))
+- Fixed typings for `Calendar.getRemindersAsync()`. ([#6055](https://github.com/expo/expo/pull/6055) by [@tasn](https://github.com/tasn))
+- Fixed `Camera` continuing to run after being unmounted on web. ([#6117](https://github.com/expo/expo/pull/6117) by [@EvanBacon](https://github.com/EvanBacon))
+- Fixed exceptions logged in the `AV` module on Android. ([#6099](https://github.com/expo/expo/pull/6099) by [@danmaas](https://github.com/danmaas))
+- Fixed crash when calling `Amplitude.setUserProperties()` on Android. ([#6174](https://github.com/expo/expo/pull/6174) by [@sjchmiela](https://github.com/sjchmiela))
+- Fixed methods for scheduling Notifications. ([#5470](https://github.com/expo/expo/pull/5470) by [@Szymon20000](https://github.com/Szymon20000))
+- Fixed unloading sounds in the `AV` module on web. ([#6214](https://github.com/expo/expo/pull/6214) by [@rickiesmooth](https://github.com/rickiesmooth))
 
 ## 35.0.0
 

@@ -3,9 +3,11 @@ title: MediaLibrary
 sourceCodeUrl: "https://github.com/expo/expo/tree/sdk-36/packages/expo-media-library"
 ---
 
+import TableOfContentSection from '~/components/plugins/TableOfContentSection';
+
 Provides access to user's media library.
 
-**Platform Compatibility**
+#### Platform Compatibility
 
 | Android Device | Android Emulator | iOS Device | iOS Simulator |  Web  |
 | ------ | ---------- | ------ | ------ | ------ |
@@ -26,13 +28,21 @@ In managed apps, `MediaLibrary` requires `Permissions.CAMERA_ROLL`.
 import * as MediaLibrary from 'expo-media-library';
 ```
 
+<TableOfContentSection title='Methods' contents={['MediaLibrary.requestPermissionsAsync()', 'MediaLibrary.getPermissionsAsync()', 'MediaLibrary.createAssetAsync(localUri)', 'MediaLibrary.saveToLibraryAsync(localUri)', 'MediaLibrary.getAssetsAsync(options)', 'MediaLibrary.getAssetInfoAsync(asset)', 'MediaLibrary.deleteAssetsAsync(assets)', 'MediaLibrary.getAlbumsAsync()', 'MediaLibrary.getAlbumAsync(albumName)', 'MediaLibrary.deleteAlbumsAsync(albums, deleteAssets)', 'MediaLibrary.addAssetsToAlbumAsync(assets, album, copyAssets)', 'MediaLibrary.removeAssetsFromAlbumAsync(assets, album)', 'MediaLibrary.getMomentsAsync()', 'MediaLibrary.addListener(listener)', 'MediaLibrary.removeAllListeners()']} />
+
+<TableOfContentSection title='Types' contents={['Asset', 'Album']} />
+
+<TableOfContentSection title='Constants' contents={['MediaLibrary.MediaType', 'MediaLibrary.SortBy']} />
+
+## Methods
+
 ### `MediaLibrary.requestPermissionsAsync()`
 
 Asks the user to grant permissions for accessing media in user's media library. Alias for `Permissions.askAsync(Permissions.CAMERA_ROLL)`.
 
 #### Returns
 
-A promise that resolves to an object of type [PermissionResponse](permissions.md#PermissionResponse).
+A promise that resolves to an object of type [PermissionResponse](../permissions/#PermissionResponse).
 
 ### `MediaLibrary.getPermissionsAsync()`
 
@@ -40,7 +50,7 @@ Checks user's permissions for accessing media library. Alias for `Permissions.ge
 
 #### Returns
 
-A promise that resolves to an object of type [PermissionResponse](permissions.md#PermissionResponse).
+A promise that resolves to an object of type [PermissionResponse](../permissions/#PermissionResponse).
 
 ### `MediaLibrary.createAssetAsync(localUri)`
 

@@ -89,8 +89,8 @@ CACHE_KEYS:
       - EXAppLoaderProvider (8.0.0)
   EXAV:
     BUILD_SETTINGS_CHECKSUM:
-      EXAV: 24e752f72833c75365a542d09159efe2
-    CHECKSUM: 39a3b794d690e91404774cabfc563182d4f84ac3
+      EXAV: 145c0531e2c7438e612f4f31e07db048
+    CHECKSUM: cef471e07cfb7f303a1352af7293bf07e5c2b183
     FILES:
       - "../../../../packages/expo-av/ios/EXAV/EXAudioRecordingPermissionRequester.h"
       - "../../../../packages/expo-av/ios/EXAV/EXAudioRecordingPermissionRequester.m"
@@ -387,8 +387,8 @@ CACHE_KEYS:
       - EXImageManipulator (8.0.0)
   EXImagePicker:
     BUILD_SETTINGS_CHECKSUM:
-      EXImagePicker: bcba6d9e24d170fa866a7b4793f3ea2b
-    CHECKSUM: e6bd62b64a84c7ae29fbdb6207fee26e2dd2ccda
+      EXImagePicker: d527769f4e804c5ea2f09deb41a716e1
+    CHECKSUM: aecd617c31562f41e85a0770bfce51a8b9d58bd1
     FILES:
       - "../../../../packages/expo-image-picker/ios/EXImagePicker/EXImagePicker.h"
       - "../../../../packages/expo-image-picker/ios/EXImagePicker/EXImagePicker.m"
@@ -778,6 +778,7 @@ CACHE_KEYS:
       - "../../../../react-native-lab/react-native/Libraries/NativeAnimation/RCTAnimationUtils.h"
       - "../../../../react-native-lab/react-native/Libraries/NativeAnimation/RCTNativeAnimatedModule.h"
       - "../../../../react-native-lab/react-native/Libraries/NativeAnimation/RCTNativeAnimatedNodesManager.h"
+      - "../../../../react-native-lab/react-native/Libraries/Network/RCTAssetsLibraryRequestHandler.h"
       - "../../../../react-native-lab/react-native/Libraries/Network/RCTDataRequestHandler.h"
       - "../../../../react-native-lab/react-native/Libraries/Network/RCTFileRequestHandler.h"
       - "../../../../react-native-lab/react-native/Libraries/Network/RCTHTTPRequestHandler.h"
@@ -1315,6 +1316,7 @@ CACHE_KEYS:
       React-RCTNetwork: 2c8926e65972db12bb2dde9f66b0f6b4
     CHECKSUM: 41fe54bacc67dd00e6e4c4d30dd98a13e4beabc8
     FILES:
+      - "../../../../react-native-lab/react-native/Libraries/Network/RCTAssetsLibraryRequestHandler.m"
       - "../../../../react-native-lab/react-native/Libraries/Network/RCTDataRequestHandler.m"
       - "../../../../react-native-lab/react-native/Libraries/Network/RCTFileRequestHandler.m"
       - "../../../../react-native-lab/react-native/Libraries/Network/RCTHTTPRequestHandler.mm"
@@ -1547,8 +1549,8 @@ CACHE_KEYS:
       - UMImageLoaderInterface (5.0.0)
   UMPermissionsInterface:
     BUILD_SETTINGS_CHECKSUM:
-      UMPermissionsInterface: 85fcfa475a1cb9b74a7b3ad9c2c2ca1c
-    CHECKSUM: 2abf9f7f4aa7110e27beaf634a7deda2d50ff3d7
+      UMPermissionsInterface: 446c60e848aba904b1e6bf9316182e96
+    CHECKSUM: 0f68a2e35b8951a03fa087e54f33bb2691bbf981
     FILES:
       - "../../../../packages/unimodules-permissions-interface/ios/UMPermissionsInterface/UMPermissionsInterface.h"
       - "../../../../packages/unimodules-permissions-interface/ios/UMPermissionsInterface/UMPermissionsMethodsDelegate.h"

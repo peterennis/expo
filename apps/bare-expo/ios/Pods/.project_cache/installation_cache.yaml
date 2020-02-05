@@ -19,12 +19,12 @@ CACHE_KEYS:
   AppAuth:
     BUILD_SETTINGS_CHECKSUM:
       AppAuth: 645fdba9fe912c64b27cf67add67debb
-    CHECKSUM: bce82c76043657c99d91e7882e8a9e1a93650cd4
+    CHECKSUM: 73574f3013a1e65b9601a3ddc8b3158cce68c09d
     PROJECT_NAME: AppAuth
     SPECS:
-      - AppAuth (1.2.0)
-      - AppAuth/Core (1.2.0)
-      - AppAuth/ExternalUserAgent (1.2.0)
+      - AppAuth (1.3.0)
+      - AppAuth/Core (1.3.0)
+      - AppAuth/ExternalUserAgent (1.3.0)
   boost-for-react-native:
     BUILD_SETTINGS_CHECKSUM:
       boost-for-react-native: e9824834bb3842483c6a4142ac76bb2d
@@ -72,6 +72,8 @@ CACHE_KEYS:
     FILES:
       - "../../../../packages/expo-application/ios/EXApplication/EXApplication.h"
       - "../../../../packages/expo-application/ios/EXApplication/EXApplication.m"
+      - "../../../../packages/expo-application/ios/EXApplication/EXProvisioningProfile.h"
+      - "../../../../packages/expo-application/ios/EXApplication/EXProvisioningProfile.m"
     PROJECT_NAME: EXApplication
     SPECS:
       - EXApplication (2.0.0)
@@ -273,6 +275,18 @@ CACHE_KEYS:
     PROJECT_NAME: EXErrorRecovery
     SPECS:
       - EXErrorRecovery (1.0.0)
+  EXFacebook:
+    BUILD_SETTINGS_CHECKSUM:
+      EXFacebook: dc1658cf687deeaa14cc9e39f36d7cac
+    CHECKSUM: c10f77ea97b3003c29b4f0a49942acc1ba8330b5
+    FILES:
+      - "../../../../packages/expo-facebook/ios/EXFacebook/EXFacebook.h"
+      - "../../../../packages/expo-facebook/ios/EXFacebook/EXFacebook.m"
+      - "../../../../packages/expo-facebook/ios/EXFacebook/EXFacebookAppDelegate.h"
+      - "../../../../packages/expo-facebook/ios/EXFacebook/EXFacebookAppDelegate.m"
+    PROJECT_NAME: EXFacebook
+    SPECS:
+      - EXFacebook (8.0.0)
   EXFileSystem:
     BUILD_SETTINGS_CHECKSUM:
       EXFileSystem: 384bbcee0771bf79893a232d6cd6c5e2
@@ -448,6 +462,24 @@ CACHE_KEYS:
     PROJECT_NAME: EXLocalization
     SPECS:
       - EXLocalization (8.0.0)
+  EXLocation:
+    BUILD_SETTINGS_CHECKSUM:
+      EXLocation: 2cdf527b8fd9660760dea76fb7930f4a
+    CHECKSUM: 3c75d012ca92eed94d4338778d79c49d1252393a
+    FILES:
+      - "../../../../packages/expo-location/ios/EXLocation/EXLocation.h"
+      - "../../../../packages/expo-location/ios/EXLocation/EXLocation.m"
+      - "../../../../packages/expo-location/ios/EXLocation/EXLocationDelegate.h"
+      - "../../../../packages/expo-location/ios/EXLocation/EXLocationDelegate.m"
+      - "../../../../packages/expo-location/ios/EXLocation/EXLocationPermissionRequester.h"
+      - "../../../../packages/expo-location/ios/EXLocation/EXLocationPermissionRequester.m"
+      - "../../../../packages/expo-location/ios/EXLocation/TaskConsumers/EXGeofencingTaskConsumer.h"
+      - "../../../../packages/expo-location/ios/EXLocation/TaskConsumers/EXGeofencingTaskConsumer.m"
+      - "../../../../packages/expo-location/ios/EXLocation/TaskConsumers/EXLocationTaskConsumer.h"
+      - "../../../../packages/expo-location/ios/EXLocation/TaskConsumers/EXLocationTaskConsumer.m"
+    PROJECT_NAME: EXLocation
+    SPECS:
+      - EXLocation (8.0.0)
   EXMailComposer:
     BUILD_SETTINGS_CHECKSUM:
       EXMailComposer: dde34d492aa6e58f5e36c7f4824e2b42
@@ -482,6 +514,21 @@ CACHE_KEYS:
     PROJECT_NAME: EXNetwork
     SPECS:
       - EXNetwork (2.0.0)
+  EXNotifications:
+    BUILD_SETTINGS_CHECKSUM:
+      EXNotifications: 42083d7be3b81dc87f399732a97ebffe
+    CHECKSUM: d654494e84df90927cca410ebac178c61553647b
+    FILES:
+      - "../../../../packages/expo-notifications/ios/EXNotifications/EXInstallationIdProvider.h"
+      - "../../../../packages/expo-notifications/ios/EXNotifications/EXInstallationIdProvider.m"
+      - "../../../../packages/expo-notifications/ios/EXNotifications/EXPushTokenListener.h"
+      - "../../../../packages/expo-notifications/ios/EXNotifications/EXPushTokenManager.h"
+      - "../../../../packages/expo-notifications/ios/EXNotifications/EXPushTokenManager.m"
+      - "../../../../packages/expo-notifications/ios/EXNotifications/EXPushTokenModule.h"
+      - "../../../../packages/expo-notifications/ios/EXNotifications/EXPushTokenModule.m"
+    PROJECT_NAME: EXNotifications
+    SPECS:
+      - EXNotifications (1.0.0)
   EXPermissions:
     BUILD_SETTINGS_CHECKSUM:
       EXPermissions: 042b0d307d74f9ba36a7183b44cd74a0
@@ -524,6 +571,22 @@ CACHE_KEYS:
     PROJECT_NAME: EXRandom
     SPECS:
       - EXRandom (8.0.0)
+  EXScreenOrientation:
+    BUILD_SETTINGS_CHECKSUM:
+      EXScreenOrientation: 605d41100602a3265d74a60e6ef76c6d
+    CHECKSUM: 44d3cd3a99a86b9cb681e742697bc2c057d7fbd2
+    FILES:
+      - "../../../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationModule.h"
+      - "../../../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationModule.m"
+      - "../../../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationRegistry.h"
+      - "../../../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationRegistry.m"
+      - "../../../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationUtilities.h"
+      - "../../../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationUtilities.m"
+      - "../../../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationViewController.h"
+      - "../../../../packages/expo-screen-orientation/ios/EXScreenOrientation/EXScreenOrientationViewController.m"
+    PROJECT_NAME: EXScreenOrientation
+    SPECS:
+      - EXScreenOrientation (1.0.0)
   EXSecureStore:
     BUILD_SETTINGS_CHECKSUM:
       EXSecureStore: 10a623412aef75951df791abc0f7f5ba
@@ -605,8 +668,8 @@ CACHE_KEYS:
       EXSQLite: acb84ade2d15e9630e8da4bbb7418d6f
     CHECKSUM: 220226a354912b100dfe913f5fe6f31762c8927e
     FILES:
-      - "../../../../packages/expo-sqlite/ios/EXSQLite/EXSQLite.h"
-      - "../../../../packages/expo-sqlite/ios/EXSQLite/EXSQLite.m"
+      - "../../../../packages/expo-sqlite/ios/EXSQlite/EXSQLite.h"
+      - "../../../../packages/expo-sqlite/ios/EXSQlite/EXSQLite.m"
     PROJECT_NAME: EXSQLite
     SPECS:
       - EXSQLite (8.0.0)
@@ -660,6 +723,23 @@ CACHE_KEYS:
     PROJECT_NAME: FBReactNativeSpec
     SPECS:
       - FBReactNativeSpec (0.61.4)
+  FBSDKCoreKit:
+    BUILD_SETTINGS_CHECKSUM:
+      FBSDKCoreKit: 60d69dde3e50d94f5f39949c424b03c5
+    CHECKSUM: e7dcac0aabcfb09d0166998edd95fe3b05a0ce5d
+    PROJECT_NAME: FBSDKCoreKit
+    SPECS:
+      - FBSDKCoreKit (5.8.0)
+      - FBSDKCoreKit/Basics (5.8.0)
+      - FBSDKCoreKit/Core (5.8.0)
+  FBSDKLoginKit:
+    BUILD_SETTINGS_CHECKSUM:
+      FBSDKLoginKit: 0df82783c4955cafdce54ee3f9243823
+    CHECKSUM: 1b0cf04df0370b37404213157b060d6666ede814
+    PROJECT_NAME: FBSDKLoginKit
+    SPECS:
+      - FBSDKLoginKit (5.8.0)
+      - FBSDKLoginKit/Login (5.8.0)
   Folly:
     BUILD_SETTINGS_CHECKSUM:
       Folly: 6929e5198d305a2496bf017ba64d131c
@@ -700,12 +780,12 @@ CACHE_KEYS:
       - GTMSessionFetcher/Full (1.3.0)
   Pods-BareExpo:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: 9fa395d50ce617a2a71ed32b1caae8ef
-      Release: 9fa395d50ce617a2a71ed32b1caae8ef
+      Debug: eecf7d1263b3ce3378ec9d3446115311
+      Release: eecf7d1263b3ce3378ec9d3446115311
   Pods-BareExpoTests:
     BUILD_SETTINGS_CHECKSUM:
-      Debug: b61a68dc0ecf8315379a8243485d7899
-      Release: b61a68dc0ecf8315379a8243485d7899
+      Debug: afa3e21077b9551248ae89a97600b432
+      Release: afa3e21077b9551248ae89a97600b432
   RCTRequired:
     BUILD_SETTINGS_CHECKSUM:
       RCTRequired: 4dfdb65505e509cfb5f433fb54943666
@@ -1232,10 +1312,33 @@ CACHE_KEYS:
     PROJECT_NAME: React-jsinspector
     SPECS:
       - React-jsinspector (0.61.4)
+  react-native-appearance:
+    BUILD_SETTINGS_CHECKSUM:
+      react-native-appearance: 7404d29f4c015c0c51680f1bce6a4d8f
+    CHECKSUM: c2e0666225d999f7f0e7d9a9cb6c627c6e4c4b92
+    FILES:
+      - "../../node_modules/react-native-appearance/ios/Appearance/RNCAppearance.h"
+      - "../../node_modules/react-native-appearance/ios/Appearance/RNCAppearance.m"
+      - "../../node_modules/react-native-appearance/ios/Appearance/RNCAppearanceProvider.h"
+      - "../../node_modules/react-native-appearance/ios/Appearance/RNCAppearanceProvider.m"
+      - "../../node_modules/react-native-appearance/ios/Appearance/RNCAppearanceProviderManager.h"
+      - "../../node_modules/react-native-appearance/ios/Appearance/RNCAppearanceProviderManager.m"
+      - "../../node_modules/react-native-appearance/LICENSE"
+      - "../../node_modules/react-native-appearance/README.md"
+    PROJECT_NAME: react-native-appearance
+    SPECS:
+      - react-native-appearance (0.3.2)
   react-native-safe-area-context:
     BUILD_SETTINGS_CHECKSUM:
-      react-native-safe-area-context: 73d0c6f3a5c8695b8c8952e7ccb0f96b
+      react-native-safe-area-context: 80a5e0b5f5707cf1c6bdcc5ec48c6cca
     CHECKSUM: d288138da2c800caa111f9352e9333f186a06ead
+    FILES:
+      - "../../../../node_modules/react-native-safe-area-context/ios/SafeAreaView/RNCSafeAreaView.h"
+      - "../../../../node_modules/react-native-safe-area-context/ios/SafeAreaView/RNCSafeAreaView.m"
+      - "../../../../node_modules/react-native-safe-area-context/ios/SafeAreaView/RNCSafeAreaViewManager.h"
+      - "../../../../node_modules/react-native-safe-area-context/ios/SafeAreaView/RNCSafeAreaViewManager.m"
+      - "../../../../node_modules/react-native-safe-area-context/LICENSE"
+      - "../../../../node_modules/react-native-safe-area-context/README.md"
     PROJECT_NAME: react-native-safe-area-context
     SPECS:
       - react-native-safe-area-context (0.6.0)
@@ -1442,15 +1545,107 @@ CACHE_KEYS:
       - ReactCommon/turbomodule/core (0.61.4)
   RNGestureHandler:
     BUILD_SETTINGS_CHECKSUM:
-      RNGestureHandler: 894f538872c881c328b338cadc584db1
-    CHECKSUM: a4ddde1ffc6e590c8127b8b7eabfdade45475c74
+      RNGestureHandler: c576e5ba26e85306cdd748939cafee55
+    CHECKSUM: 7add966bb5d90ee8cf38d4341f87814474357972
+    FILES:
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNFlingHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNFlingHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNForceTouchHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNForceTouchHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNLongPressHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNLongPressHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNNativeViewHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNNativeViewHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNPanHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNPanHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNPinchHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNPinchHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNRotationHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNRotationHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNTapHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/Handlers/RNTapHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandler.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandler.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerButton.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerButton.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerDirection.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerEvents.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerEvents.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerManager.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerManager.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerModule.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerModule.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerRegistry.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerRegistry.m"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNGestureHandlerState.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNRootViewGestureRecognizer.h"
+      - "../../../../node_modules/react-native-gesture-handler/ios/RNRootViewGestureRecognizer.m"
+      - "../../../../node_modules/react-native-gesture-handler/LICENSE"
+      - "../../../../node_modules/react-native-gesture-handler/README.md"
     PROJECT_NAME: RNGestureHandler
     SPECS:
-      - RNGestureHandler (1.5.0)
+      - RNGestureHandler (1.5.1)
   RNReanimated:
     BUILD_SETTINGS_CHECKSUM:
-      RNReanimated: 1834c20101082965441e7e968432d2b3
+      RNReanimated: 1d95b7b88b09cb2c47f1f272532903e1
     CHECKSUM: b2ab0b693dddd2339bd2f300e770f6302d2e960c
+    FILES:
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAAlwaysNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAAlwaysNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REABezierNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REABezierNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REABlockNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REABlockNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REACallFuncNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REACallFuncNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAClockNodes.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAClockNodes.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAConcatNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAConcatNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REACondNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REACondNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/READebugNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/READebugNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAEventNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAEventNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAFunctionNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAFunctionNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAJSCallNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAJSCallNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REANode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REANode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAOperatorNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAOperatorNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAParamNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAParamNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAPropsNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAPropsNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REASetNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REASetNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAStyleNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAStyleNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REATransformNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REATransformNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAValueNode.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Nodes/REAValueNode.m"
+      - "../../../../node_modules/react-native-reanimated/ios/REAModule.h"
+      - "../../../../node_modules/react-native-reanimated/ios/REAModule.m"
+      - "../../../../node_modules/react-native-reanimated/ios/REANodesManager.h"
+      - "../../../../node_modules/react-native-reanimated/ios/REANodesManager.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/RCTConvert+REATransition.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/RCTConvert+REATransition.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REAAllTransitions.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REAAllTransitions.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REATransition.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REATransition.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REATransitionAnimation.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REATransitionAnimation.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REATransitionManager.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REATransitionManager.m"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REATransitionValues.h"
+      - "../../../../node_modules/react-native-reanimated/ios/Transitioning/REATransitionValues.m"
+      - "../../../../node_modules/react-native-reanimated/LICENSE"
+      - "../../../../node_modules/react-native-reanimated/README.md"
     PROJECT_NAME: RNReanimated
     SPECS:
       - RNReanimated (1.4.0)
@@ -1580,6 +1775,8 @@ CACHE_KEYS:
       - "../../../../packages/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMBridgeModule.h"
       - "../../../../packages/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMModuleRegistryAdapter/UMModuleRegistryAdapter.h"
       - "../../../../packages/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMModuleRegistryAdapter/UMModuleRegistryAdapter.m"
+      - "../../../../packages/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMModuleRegistryAdapter/UMModuleRegistryHolderReactModule.h"
+      - "../../../../packages/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMModuleRegistryAdapter/UMModuleRegistryHolderReactModule.m"
       - "../../../../packages/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMModuleRegistryAdapter/UMViewManagerAdapterClassesRegistry.h"
       - "../../../../packages/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMModuleRegistryAdapter/UMViewManagerAdapterClassesRegistry.m"
       - "../../../../packages/@unimodules/react-native-adapter/ios/UMReactNativeAdapter/UMNativeModulesProxy/UMNativeModulesProxy.h"
@@ -1603,6 +1800,19 @@ CACHE_KEYS:
     PROJECT_NAME: UMSensorsInterface
     SPECS:
       - UMSensorsInterface (5.0.0)
+  UMTaskManagerInterface:
+    BUILD_SETTINGS_CHECKSUM:
+      UMTaskManagerInterface: 7659aca9cac609731d0f1bd954e77065
+    CHECKSUM: a98e37a576a5220bf43b8faf33cfdc129d2f441d
+    FILES:
+      - "../../../../packages/unimodules-task-manager-interface/ios/UMTaskManagerInterface/UMTaskConsumerInterface.h"
+      - "../../../../packages/unimodules-task-manager-interface/ios/UMTaskManagerInterface/UMTaskInterface.h"
+      - "../../../../packages/unimodules-task-manager-interface/ios/UMTaskManagerInterface/UMTaskLaunchReason.h"
+      - "../../../../packages/unimodules-task-manager-interface/ios/UMTaskManagerInterface/UMTaskManagerInterface.h"
+      - "../../../../packages/unimodules-task-manager-interface/ios/UMTaskManagerInterface/UMTaskServiceInterface.h"
+    PROJECT_NAME: UMTaskManagerInterface
+    SPECS:
+      - UMTaskManagerInterface (5.0.0)
   Yoga:
     BUILD_SETTINGS_CHECKSUM:
       Yoga: 1c1562cda00c80e209af7feb55d5f6dd

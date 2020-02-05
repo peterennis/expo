@@ -10,8 +10,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.core.app.NotificationCompat;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -36,6 +34,8 @@ import java.util.List;
 import javax.annotation.Nullable;
 import javax.inject.Inject;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 import de.greenrobot.event.EventBus;
 import host.exp.exponent.AppLoader;
 import host.exp.exponent.Constants;
@@ -99,6 +99,7 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
   private boolean mIsShellApp;
   private String mIntentUri;
   private boolean mIsReadyForBundle;
+  private boolean mWillBeReloaded = false;
 
   private RemoteViews mNotificationRemoteViews;
   private Handler mNotificationAnimationHandler;
@@ -310,26 +311,21 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
    */
 
   public void setLoadingScreenManifest(final JSONObject manifest) {
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        if (!isInForeground()) {
-          return;
-        }
-
-        if (!mShouldShowLoadingScreenWithOptimisticManifest) {
-          return;
-        }
-
-        // grab SDK version from optimisticManifest -- in this context we just need to know ensure it's above 5.0.0 (which it should always be)
-        String optimisticSdkVersion = manifest.optString(ExponentManifest.MANIFEST_SDK_VERSION_KEY);
-        ExperienceActivityUtils.setWindowTransparency(optimisticSdkVersion, manifest, ExperienceActivity.this);
-        ExperienceActivityUtils.setNavigationBar(manifest, ExperienceActivity.this);
-
-        showLoadingScreen(manifest);
-
-        ExperienceActivityUtils.setTaskDescription(mExponentManifest, manifest, ExperienceActivity.this);
+    runOnUiThread(() -> {
+      if (!isInForeground()) {
+        return;
       }
+
+      if (!mShouldShowLoadingScreenWithOptimisticManifest) {
+        return;
+      }
+
+      ExperienceActivityUtils.configureStatusBar(manifest, ExperienceActivity.this);
+      ExperienceActivityUtils.setNavigationBar(manifest, ExperienceActivity.this);
+
+      showLoadingScreen(manifest);
+
+      ExperienceActivityUtils.setTaskDescription(mExponentManifest, manifest, ExperienceActivity.this);
     });
   }
 
@@ -401,7 +397,7 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
     Analytics.logEventWithManifestUrlSdkVersion(Analytics.LOAD_EXPERIENCE, mManifestUrl, mSDKVersion);
 
     ExperienceActivityUtils.updateOrientation(mManifest, this);
-    ExperienceActivityUtils.overrideUserInterfaceStyle(mManifest, this);
+    mWillBeReloaded = ExperienceActivityUtils.overrideUserInterfaceStyle(mManifest, this);
     addNotification(kernelOptions);
 
     ExponentNotification notificationObject = null;
@@ -433,48 +429,43 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
 
     BranchManager.handleLink(this, mIntentUri, mDetachSdkVersion);
 
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        if (!isInForeground()) {
-          return;
-        }
-
-        if (mReactInstanceManager.isNotNull()) {
-          mReactInstanceManager.onHostDestroy();
-          mReactInstanceManager.assign(null);
-        }
-
-        mReactRootView = new RNObject("host.exp.exponent.ReactUnthemedRootView");
-        mReactRootView.loadVersion(mDetachSdkVersion).construct(ExperienceActivity.this);
-        setView((View) mReactRootView.get());
-
-        String id;
-        try {
-          id = Exponent.getInstance().encodeExperienceId(mExperienceIdString);
-        } catch (UnsupportedEncodingException e) {
-          KernelProvider.getInstance().handleError("Can't URL encode manifest ID");
-          return;
-        }
-
-        boolean hasCachedBundle;
-        if (isDebugModeEnabled()) {
-          hasCachedBundle = false;
-          mNotification = finalNotificationObject;
-          waitForDrawOverOtherAppPermission("");
-        } else {
-          mTempNotification = finalNotificationObject;
-          mIsReadyForBundle = true;
-          AsyncCondition.notify(READY_FOR_BUNDLE);
-        }
-
-        ExperienceActivityUtils.setWindowTransparency(mDetachSdkVersion, manifest, ExperienceActivity.this);
-        ExperienceActivityUtils.setNavigationBar(manifest, ExperienceActivity.this);
-        showLoadingScreen(manifest);
-
-        ExperienceActivityUtils.setTaskDescription(mExponentManifest, manifest, ExperienceActivity.this);
-        handleExperienceOptions(kernelOptions);
+    runOnUiThread(() -> {
+      if (!isInForeground()) {
+        return;
       }
+
+      if (mReactInstanceManager.isNotNull()) {
+        mReactInstanceManager.onHostDestroy();
+        mReactInstanceManager.assign(null);
+      }
+
+      mReactRootView = new RNObject("host.exp.exponent.ReactUnthemedRootView");
+      mReactRootView.loadVersion(mDetachSdkVersion).construct(ExperienceActivity.this);
+      setView((View) mReactRootView.get());
+
+      String id;
+      try {
+        id = Exponent.getInstance().encodeExperienceId(mExperienceIdString);
+      } catch (UnsupportedEncodingException e) {
+        KernelProvider.getInstance().handleError("Can't URL encode manifest ID");
+        return;
+      }
+
+      if (isDebugModeEnabled()) {
+        mNotification = finalNotificationObject;
+        waitForDrawOverOtherAppPermission("");
+      } else {
+        mTempNotification = finalNotificationObject;
+        mIsReadyForBundle = true;
+        AsyncCondition.notify(READY_FOR_BUNDLE);
+      }
+
+      ExperienceActivityUtils.configureStatusBar(manifest, ExperienceActivity.this);
+      ExperienceActivityUtils.setNavigationBar(manifest, ExperienceActivity.this);
+      showLoadingScreen(manifest);
+
+      ExperienceActivityUtils.setTaskDescription(mExponentManifest, manifest, ExperienceActivity.this);
+      handleExperienceOptions(kernelOptions);
     });
   }
 
@@ -482,7 +473,10 @@ public class ExperienceActivity extends BaseExperienceActivity implements Expone
     // by this point, setManifest should have also been called, so prevent
     // setLoadingScreenManifest from showing a rogue loading screen
     mShouldShowLoadingScreenWithOptimisticManifest = false;
-    if (!isDebugModeEnabled()) {
+
+    // To prevents starting application twice, we start react instance only if we know that the current activity won't be restarted.
+    // Restart of the activity could be triggered by dark mode change.
+    if (!isDebugModeEnabled() && !mWillBeReloaded) {
       final boolean finalIsReadyForBundle = mIsReadyForBundle;
       AsyncCondition.wait(READY_FOR_BUNDLE, new AsyncCondition.AsyncConditionListener() {
         @Override

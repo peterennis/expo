@@ -15,28 +15,30 @@ The 3 primary iOS credentials, all of which are associated with your Apple Devel
 - Provisioning Profiles
 - Push Notification Keys
 
-Whether you let Expo handle all your credentials, or you handle them all yourself, it can be valuable to understand what each of these credentials mean, when and where they're used, and what happens when they expire or are revoked.
+Whether you let Expo handle all your credentials, or you handle them all yourself, it can be valuable to understand what each of these credentials mean, when and where they're used, and what happens when they expire or are revoked. You can inspect and manage all your credentials with Expo CLI by running `expo credentials:manager`.
 
 ### Distribution Certificate
 
 The distribution certificate is all about you, the developer, and not about any particular app. You may only have one distribution certificate associated with your Apple Developer account.
-This certificate will be used for all of your apps. If this certificate expires, your apps in production will not be affected. However, you will need to generate a new certificate if you want to upload new apps to the App Store, or update any of your existing apps. Deleting a distribution certificate has no effect on any apps already on the App Store.
+This certificate will be used for all of your apps. If this certificate expires, your apps in production will not be affected. However, you will need to generate a new certificate if you want to upload new apps to the App Store, or update any of your existing apps. Deleting a distribution certificate has no effect on any apps already on the App Store. You can clear the distribution certificate Expo currently has stored for your app the next time you build by running `expo build:ios --clear-dist-cert`.
 
 ### Push Notification Keys
 
 Apple Push Notification Keys (often abbreviated as APN keys) allow the associated apps to send and receive push notifications. By default, any app built with Expo will require an APN key. This is so that you can enable push notifications for your app through a quick [OTA update](../../guides/configuring-ota-updates/), rather than needing to submit an entirely new binary.
 
-You can have a maximum of 2 APN keys associated with your Apple Developer account, and a single key can be used with any number of apps. If you revoke an APN key, all apps that rely on that key will no longer be able to send or receive push notifications until you upload a new key to replace it. Push notification keys do not expire.
+You can have a maximum of 2 APN keys associated with your Apple Developer account, and a single key can be used with any number of apps. If you revoke an APN key, all apps that rely on that key will no longer be able to send or receive push notifications until you upload a new key to replace it. Uploading a new APN key **will not** change your users' [Expo Push Tokens](../../sdk/notifications/#notificationsgetexpopushtokenasync). Push notification keys do not expire. You can clear the APN key Expo currently has stored for your app the next time you build by running `expo build:ios --clear-push-key`.
 
 ### Provisioning Profiles
 
 Each profile is app-specific, meaning you will have a provisioning profile for every app you submit to the App Store. These provisioning profiles are associated with your distribution certificate, so if that is revoked or expired, you'll need to regenerate the app's provisioning profile, as well. Similar to the distribution certificate, revoking your app's provisioning profile will not have any effect on apps already on the App Store.
 
+Provisioning profiles expire after 12 months, but this won't affect apps in production. You will just need to create a new one the next time you build your app by running `expo build:ios --clear-provisioning-profile`.
+
 ### Summary
 
 | Credential               | Limit Per Account | App-specific? | Can be revoked with no production side effects? | Used at... |
 | ------------------------ | ----------------- | ------------- | ----------------------------------------------- | ---------- |
-| Distribution Certificate | 1                 | ❌            | ✅                                              | Build time |
+| Distribution Certificate | 2                 | ❌            | ✅                                              | Build time |
 | Push Notification Key    | 2                 | ❌            | ❌                                              | Run time   |
 | Provisioning Profile     | Unlimited         | ✅            | ✅                                              | Build time |
 

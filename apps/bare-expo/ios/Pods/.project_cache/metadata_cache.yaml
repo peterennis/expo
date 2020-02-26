@@ -30,14 +30,14 @@ EXApplication:
   LABEL: EXApplication
   PROJECT_PATH: EXApplication.xcodeproj
   UUID: 2C391225329DE46C6566ED1ADF52F10D
-EXAppLoaderProvider:
-  LABEL: EXAppLoaderProvider
-  PROJECT_PATH: EXAppLoaderProvider.xcodeproj
-  UUID: BCF55F45F804FC2D6BC57983597F3174
 EXAV:
   LABEL: EXAV
   PROJECT_PATH: EXAV.xcodeproj
   UUID: 657B3E0E8F77DB91FA182432EC404FBF
+EXBackgroundFetch:
+  LABEL: EXBackgroundFetch
+  PROJECT_PATH: EXBackgroundFetch.xcodeproj
+  UUID: 280658D584B63A5E8CB5F0405789A353
 EXBarCodeScanner:
   LABEL: EXBarCodeScanner
   PROJECT_PATH: EXBarCodeScanner.xcodeproj
@@ -222,6 +222,10 @@ EXStoreReview:
   LABEL: EXStoreReview
   PROJECT_PATH: EXStoreReview.xcodeproj
   UUID: F2C74458D282DA74DB95F8A7FE6A5207
+EXTaskManager:
+  LABEL: EXTaskManager
+  PROJECT_PATH: EXTaskManager.xcodeproj
+  UUID: 86D546D1F048CDA66BE7589194F91D23
 EXUpdates:
   LABEL: EXUpdates
   PROJECT_PATH: EXUpdates.xcodeproj
@@ -410,6 +414,10 @@ RNReanimated:
   LABEL: RNReanimated
   PROJECT_PATH: RNReanimated.xcodeproj
   UUID: E9E22639328ACC061EB56756AD5B4F57
+UMAppLoader:
+  LABEL: UMAppLoader
+  PROJECT_PATH: UMAppLoader.xcodeproj
+  UUID: AD914734744A00B4515A3E7A846EDC15
 UMBarCodeScannerInterface:
   LABEL: UMBarCodeScannerInterface
   PROJECT_PATH: UMBarCodeScannerInterface.xcodeproj

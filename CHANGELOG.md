@@ -28,7 +28,7 @@ This is the log of notable changes to the Expo client that are developer-facing.
 - Updated `react-native-webview` from `7.4.3` to `8.1.1`.
 - Updated `react-native-appearance` from `0.2.1` to `0.3.2`.
 - Updated `react-native-safe-area-context` from `0.6.0` to `0.7.3`.
-- Updated `react-native-screens` from `2.0.0-alpha.12` to `2.1.0` 🎉. ([#7183](https://github.com/expo/expo/pull/7183) by [@tsapeta](https://github.com/tsapeta), ([#7201](https://github.com/expo/expo/pull/7201) [@bbarthec](https://github.com/bbarthec))
+- Updated `react-native-screens` from `2.0.0-alpha.12` to `2.2.0` 🎉. ([#7183](https://github.com/expo/expo/pull/7183) by [@tsapeta](https://github.com/tsapeta), ([#7201](https://github.com/expo/expo/pull/7201) [@bbarthec](https://github.com/bbarthec)), ([#7215](https://github.com/expo/expo/pull/7215) [@LinusU](https://github.com/LinusU))
 
 ### 🛠 Breaking changes
 
@@ -91,6 +91,8 @@ This is the log of notable changes to the Expo client that are developer-facing.
 - Fixed `Constants.installationId` being `null` in the bare workflow after ejecting. ([#6906](https://github.com/expo/expo/pull/6906) by [@cruzach](https://github.com/cruzach))
 - Fixed `Facebook.logInWithReadPermissionsAsync` method throwing error (`undefined is not an object (evaluating '_ref.type')`). by ([#6527](https://github.com/expo/expo/pull/6527) by [@sjchmiela](https://github.com/sjchmiela))
 - Fixed some TypeScript types not being exported. ([#7120](https://github.com/expo/expo/pull/7120) by [@lukmccall](https://github.com/lukmccall))
+- Fixed `TaskManager.defineTask` logging too many warnings and not working well with Fast Refresh. ([#7202](https://github.com/expo/expo/pull/7202) by [@tsapeta](https://github.com/tsapeta))
+- Added doc comments to `TaskManager` and exported more types. ([#7202](https://github.com/expo/expo/pull/7202) by [@tsapeta](https://github.com/tsapeta))
 
 ## 36.0.0
 

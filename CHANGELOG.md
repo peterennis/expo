@@ -8,9 +8,18 @@ This is the log of notable changes to the Expo client that are developer-facing.
 
 ### 🛠 Breaking changes
 
+- `FileSystem.getContentUriAsync` now returns a string. ([#7192](https://github.com/expo/expo/pull/7192) by [@lukmccall](https://github.com/lukmccall))
+
 ### 🎉 New features
 
+- Add `readerMode` and `dismissButtonStyle` (iOS) and `enableDefaultShare` (Android) flags for `WebBrowser` ([#7221](https://github.com/expo/expo/pull/7221) by [@LinusU](https://github.com/LinusU)) & [@mczernek](https://github.com/mczernek))
+
 ### 🐛 Bug fixes
+
+- Fixed `Brightness.requestPermissionsAsync` throwing `permission cannot be null or empty` error on Android. ([#7276](https://github.com/expo/expo/pull/7276) by [@lukmccall](https://github.com/lukmccall))
+- Fixed `KeepAwake.activateKeepAwake` not working with multiple tags on Android. ([#7197](https://github.com/expo/expo/pull/7197) by [@lukmccall](https://github.com/lukmccall))
+- Fix `Contacts.presentFormAsync` pre-filling. ([#7285](https://github.com/expo/expo/pull/7285) by [@abdelilah](https://github.com/abdelilah) & [@lukmccall](https://github.com/lukmccall))
+- Removed unknown CLI options `--android-package` and `--ios-bundle-identifier` from docs. ([#7354](https://github.com/expo/expo/pull/7354) by [@ca057](https://github.com/ca057))
 
 ## 37.0.0
 
@@ -26,7 +35,7 @@ This is the log of notable changes to the Expo client that are developer-facing.
 - Updated `react-native-svg` from `9.13.3` to `11.0.1`.
 - Updated `react-native-view-shot` from `3.0.2` to `3.1.2`.
 - Updated `react-native-webview` from `7.4.3` to `8.1.1`.
-- Updated `react-native-appearance` from `0.2.1` to `0.3.2`.
+- Updated `react-native-appearance` from `0.2.1` to `0.3.3`. ([#7250](https://github.com/expo/expo/pull/7250) by [@tsapeta](https://github.com/tsapeta))
 - Updated `react-native-safe-area-context` from `0.6.0` to `0.7.3`.
 - Updated `react-native-screens` from `2.0.0-alpha.12` to `2.2.0` 🎉. ([#7183](https://github.com/expo/expo/pull/7183) by [@tsapeta](https://github.com/tsapeta), ([#7201](https://github.com/expo/expo/pull/7201) [@bbarthec](https://github.com/bbarthec)), ([#7215](https://github.com/expo/expo/pull/7215) [@LinusU](https://github.com/LinusU))
 
@@ -35,12 +44,14 @@ This is the log of notable changes to the Expo client that are developer-facing.
 - `expo-app-auth` Remove SSL features from unsafe connection builder. ([#7187](https://github.com/expo/expo/pull/7187) by [@evanbacon](https://github.com/evanbacon))
 - `expo-constants` `Constants.deviceName` now only returns the possible Browser name and doesn't fallback to engine or OS name. ([#6809](https://github.com/expo/expo/pull/6809) [@evanbacon](https://github.com/evanbacon))
 - `expo-constants` `Constants.platform.web` now only returns the `ua` (user agent string). ([#6809](https://github.com/expo/expo/pull/6809) [@evanbacon](https://github.com/evanbacon))
+- `expo-crypto` Removed support for the MD2 and MD4 hashing algorithms in the Expo client and standalone apps. ([#6464](https://github.com/expo/expo/pull/6464) [@sjchmiela](https://github.com/sjchmiela))
 - Enriched `androidStatusBar` configuration in `app.json`. ([#6506](https://github.com/expo/expo/pull/6506) [@bbarthec](https://github.com/bbarthec))
 - Extended `androidNavigationBar.visible` configuration in `app.json`. To keep the same behavior as before, change your `androidNavigationBar.visible` field from `false` to `leanback`. ([#7049](https://github.com/expo/expo/pull/7049) [@cruzach](https://github.com/cruzach))
 - **`expo`**: Removed `AuthSession` from the `expo` package and extracted into `expo-auth-session` unimodule. ([#6989](https://github.com/expo/expo/pull/6989) by [@lukmccall](https://github.com/lukmccall))
 - **`expo`**: Removed `ScreenOrientation` from the `expo` package and extracted into `expo-screen-orientation` unimodule. ([#6760](https://github.com/expo/expo/pull/6760) by [@lukmccall](https://github.com/lukmccall))
 - Removed `Orientation.PORTRAIT` and `Orientation.LANDSCAPE` from `ScreenOrientation` in favor of their more specific versions. ([#6760](https://github.com/expo/expo/pull/6760) by [@lukmccall](https://github.com/lukmccall))
 - `LocalAuthentication.authenticateAsync` will now display Android's UI component to prompt the user to authenticate. ([#6846](https://github.com/expo/expo/pull/6846) by [@LinusU](https://github.com/LinusU))
+- `StatusBar` on Android has `dark-content` by default to match iOS. ([#7317](https://github.com/expo/expo/pull/7317) [@bbarthec](https://github.com/bbarthec))
 
 ### 🎉 New features
 
@@ -55,6 +66,7 @@ This is the log of notable changes to the Expo client that are developer-facing.
 
 ### 🐛 Bug fixes
 
+- Fixed parsing booleans in `SQLite` ([#7225](https://github.com/expo/expo/pull/7225) by [@mczernek](https://github.com/mczernek))
 - Fixed value reported by `FileSystem.getFreeDiskStorageAsync` (was `2^53 - 1`, now is bytes available) ([#6465](https://github.com/expo/expo/pull/6465) by [@sjchmiela](https://github.com/sjchmiela))
 - Added `setOnPlaybackStatusUpdate` to `Video.refs` ([#6213](https://github.com/expo/expo/pull/6213) by [@mczernek](https://github.com/mczernek))
 - Updated underlying Facebook SDK on Android to v5.12.1 ([#6462](https://github.com/expo/expo/pull/6462) by [@sjchmiela](https://github.com/sjchmiela))

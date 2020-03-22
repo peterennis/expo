@@ -1,12 +1,9 @@
 package expo.modules.notifications.notifications.service;
 
-import android.app.Notification;
-
-import org.json.JSONObject;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.WeakHashMap;
 
 import androidx.annotation.NonNull;
@@ -16,9 +13,9 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import expo.modules.notifications.notifications.NotificationManager;
-import expo.modules.notifications.notifications.interfaces.NotificationBehavior;
-import expo.modules.notifications.notifications.interfaces.NotificationBuilder;
-import expo.modules.notifications.notifications.interfaces.NotificationTrigger;
+import expo.modules.notifications.notifications.model.Notification;
+import expo.modules.notifications.notifications.model.NotificationBehavior;
+import expo.modules.notifications.notifications.model.NotificationResponse;
 import expo.modules.notifications.notifications.presentation.builders.ExpoNotificationBuilder;
 
 /**
@@ -27,10 +24,19 @@ import expo.modules.notifications.notifications.presentation.builders.ExpoNotifi
  */
 public class ExpoNotificationsService extends BaseNotificationsService {
   /**
+   * {@link Notification} has an intrinsic identifier, which is a String. We use it
+   * as a notification tag, when passing notifications to {@link NotificationManagerCompat}.
+   * Since it identifies notifications by (String tag, int id), we still need to use some ID
+   * to properly handle the notification. This implementation uses a static ID = 0.
+   */
+  protected static final int ANDROID_NOTIFICATION_ID = 0;
+  /**
    * A weak map of listeners -> reference. Used to check quickly whether given listener
    * is already registered and to iterate over when notifying of new token.
    */
   protected static WeakHashMap<NotificationManager, WeakReference<NotificationManager>> sListenersReferences = new WeakHashMap<>();
+
+  protected static Collection<NotificationResponse> sPendingNotificationResponses = new ArrayList<>();
 
   /**
    * Used only by {@link NotificationManager} instances. If you look for a place to register
@@ -47,6 +53,13 @@ public class ExpoNotificationsService extends BaseNotificationsService {
     if (!sListenersReferences.containsKey(listener)) {
       WeakReference<NotificationManager> listenerReference = new WeakReference<>(listener);
       sListenersReferences.put(listener, listenerReference);
+      if (!sPendingNotificationResponses.isEmpty()) {
+        Iterator<NotificationResponse> responseIterator = sPendingNotificationResponses.iterator();
+        while (responseIterator.hasNext()) {
+          listener.onNotificationResponseReceived(responseIterator.next());
+          responseIterator.remove();
+        }
+      }
     }
   }
 
@@ -77,13 +90,13 @@ public class ExpoNotificationsService extends BaseNotificationsService {
   }
 
   @Override
-  protected void onNotificationReceived(String identifier, JSONObject request, NotificationTrigger trigger) {
+  protected void onNotificationReceived(Notification notification) {
     if (mIsAppInForeground) {
       for (NotificationManager listener : getListeners()) {
-        listener.onNotificationReceived(identifier, request, trigger);
+        listener.onNotificationReceived(notification);
       }
     } else {
-      BaseNotificationsService.enqueuePresent(this, identifier, request, null, null);
+      BaseNotificationsService.enqueuePresent(this, notification, null, null);
     }
   }
 
@@ -96,7 +109,7 @@ public class ExpoNotificationsService extends BaseNotificationsService {
 
   @Override
   protected void onNotificationDismiss(String identifier) {
-    NotificationManagerCompat.from(this).cancel(getNotificationTag(identifier, null), getNotificationId(identifier, null));
+    NotificationManagerCompat.from(this).cancel(identifier, ANDROID_NOTIFICATION_ID);
   }
 
   @Override
@@ -104,45 +117,33 @@ public class ExpoNotificationsService extends BaseNotificationsService {
     NotificationManagerCompat.from(this).cancelAll();
   }
 
+  @Override
+  protected void onNotificationResponseReceived(NotificationResponse response) {
+    Collection<NotificationManager> listeners = getListeners();
+    if (listeners.isEmpty()) {
+      sPendingNotificationResponses.add(response);
+    } else {
+      for (NotificationManager listener : listeners) {
+        listener.onNotificationResponseReceived(response);
+      }
+    }
+  }
+
   /**
    * Callback called when the service is supposed to present a notification.
    *
-   * @param identifier Notification identifier
-   * @param request    Notification request
-   * @param behavior   Allowed notification behavior
+   * @param notification Notification presented
+   * @param behavior     Allowed notification behavior
    */
-  protected void onNotificationPresent(String identifier, JSONObject request, NotificationBehavior behavior) {
-    String tag = getNotificationTag(identifier, request);
-    int id = getNotificationId(identifier, request);
-    Notification notification = getNotification(request, behavior);
-    NotificationManagerCompat.from(this).notify(tag, id, notification);
+  @Override
+  protected void onNotificationPresent(expo.modules.notifications.notifications.model.Notification notification, NotificationBehavior behavior) {
+    String tag = notification.getNotificationRequest().getIdentifier();
+    NotificationManagerCompat.from(this).notify(tag, ANDROID_NOTIFICATION_ID, getNotification(notification, behavior));
   }
 
-  /**
-   * @param identifier Notification identifier
-   * @param request    Notification request
-   * @return Tag to use to identify the notification.
-   */
-  protected String getNotificationTag(String identifier, JSONObject request) {
-    return identifier;
-  }
-
-  /**
-   * @param identifier Notification identifier
-   * @param request    Notification request
-   * @return A numeric identifier to use to identify the notification
-   */
-  protected int getNotificationId(String identifier, JSONObject request) {
-    return 0;
-  }
-
-  protected NotificationBuilder getNotificationBuilder() {
-    return new ExpoNotificationBuilder(this);
-  }
-
-  protected Notification getNotification(JSONObject request, NotificationBehavior behavior) {
-    return getNotificationBuilder()
-        .setNotificationRequest(request)
+  protected android.app.Notification getNotification(Notification notification, NotificationBehavior behavior) {
+    return new ExpoNotificationBuilder(this)
+        .setNotification(notification)
         .setAllowedBehavior(behavior)
         .build();
   }
